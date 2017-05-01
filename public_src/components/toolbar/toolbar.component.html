@@ -12,3 +12,13 @@
         title="Toggle the airport layer" (click)="toggleAirPortLayer()" btnCheckbox>
     <i class="fa fa-plane"></i>
 </button>
+
+<button id="download-data" class="btn btn-default on-map" [class.btn-primary]="downloading"
+        title="Download data from Overpass API" (click)="downloadData()" btnCheckbox>
+    <i class="fa fa-download"></i>
+</button>
+
+<button id="upload-data" class="btn btn-default on-map" [class.btn-primary]="downloading"
+        title="Upload changes" (click)="uploadData()" btnCheckbox>
+    <i class="fa fa-upload"></i>
+</button>

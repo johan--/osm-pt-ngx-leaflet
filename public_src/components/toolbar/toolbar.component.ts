@@ -16,17 +16,23 @@ export class ToolbarComponent {
     removing: boolean;
     airportLayerAdded: boolean;
     markerCount: number;
+    downloading: boolean;
+    uploading: boolean;
 
     constructor(private mapService: MapService) {
         this.editing = false;
         this.removing = false;
         this.markerCount = 0;
+        this.downloading = false;
+        this.uploading = false;
     }
 
     ngOnInit() {
         this.mapService.disableMouseEvent("add-marker");
         this.mapService.disableMouseEvent("remove-marker");
         this.mapService.disableMouseEvent("toggle-layer");
+        this.mapService.disableMouseEvent("download-data");
+        this.mapService.disableMouseEvent("upload-data");
     }
 
     Initialize() {
@@ -76,5 +82,14 @@ export class ToolbarComponent {
     toggleAirPortLayer() {
         this.airportLayerAdded = !this.airportLayerAdded;
         this.mapService.toggleAirPortLayer();
+    }
+
+    downloadData() {
+        this.downloading = !this.downloading;
+        this.overpassService.queryData();
+    }
+
+    uploadData() {
+        // TODO add uploading
     }
 }
