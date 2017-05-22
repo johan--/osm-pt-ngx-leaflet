@@ -1,5 +1,6 @@
 import {Component} from "@angular/core";
 import {MapService} from "../../services/map.service";
+import {OverpassService} from "../../services/overpass.service";
 import {Map, MouseEvent, Marker} from "leaflet";
 
 @Component({
@@ -86,10 +87,11 @@ export class ToolbarComponent {
 
     downloadData() {
         this.downloading = !this.downloading;
-        this.overpassService.queryData();
+        this.mapService.getData();
     }
 
     uploadData() {
         // TODO add uploading
+        // this.uploading = !this.uploading;
     }
 }
