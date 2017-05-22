@@ -1,3 +1,4 @@
+///<reference path="../../services/map.service.ts"/>
 import {Component} from "@angular/core";
 import {MapService} from "../../services/map.service";
 import {OverpassService} from "../../services/overpass.service";
@@ -24,9 +25,13 @@ export class ToolbarComponent {
         this.editing = false;
         this.removing = false;
         this.markerCount = 0;
-        this.downloading = false;
-        this.uploading = false;
     }
+
+    private overpassService: OverpassService;
+    // constructor(private overpassService: OverpassService) {
+    //     this.downloading = false;
+    //     this.uploading = false;
+    // }
 
     ngOnInit() {
         this.mapService.disableMouseEvent("add-marker");
@@ -87,11 +92,14 @@ export class ToolbarComponent {
 
     downloadData() {
         this.downloading = !this.downloading;
-        this.mapService.getData();
+        this.overpassService.requestData();
     }
 
     uploadData() {
-        // TODO add uploading
-        // this.uploading = !this.uploading;
+        // TODO
+        this.uploading = !this.uploading;
+        this.overpassService.createChangeSet();
+        this.overpassService.updateChangeSet();
+        this.overpassService.closeChangeSet();
     }
 }
