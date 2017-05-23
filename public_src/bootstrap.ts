@@ -12,9 +12,9 @@ import "font-awesome/css/font-awesome.css";
 import "leaflet/dist/leaflet.css";
 
 import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
-import {HttpModule} from "@angular/http";
+import {JsonpModule, HttpModule} from "@angular/http";
 import {NgModule} from "@angular/core";
-import {FormsModule}   from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
 
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
@@ -26,11 +26,13 @@ import {RelationBrowserComponent} from "./components/sidebar/relation-browser.co
 import {TagBrowserComponent} from "./components/sidebar/tag-browser.component";
 import {StopBrowserComponent} from "./components/sidebar/stop-browser.component";
 
+import {NgbdModalComponent} from "./components/modal/modal.component";
+
 import {MapService} from "./services/map.service";
 import {GeocodingService} from "./services/geocoding.service";
 
 @NgModule({
-    imports: [HttpModule, FormsModule, BrowserModule, NgbModule.forRoot()],
+    imports: [HttpModule, FormsModule, BrowserModule, ReactiveFormsModule, JsonpModule, NgbModule.forRoot()],
     bootstrap: [AppComponent],
     declarations: [
         AppComponent,
@@ -39,6 +41,7 @@ import {GeocodingService} from "./services/geocoding.service";
         RelationBrowserComponent,
         TagBrowserComponent,
         StopBrowserComponent,
+        NgbdModalComponent
     ],
     providers: [
         MapService,
