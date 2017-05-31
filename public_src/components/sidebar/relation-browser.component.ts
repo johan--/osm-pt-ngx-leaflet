@@ -1,4 +1,5 @@
 import {Component} from "@angular/core";
+import {StorageService} from "../../services/storage.service";
 
 @Component({
     selector: "relation-browser",
@@ -10,4 +11,8 @@ import {Component} from "@angular/core";
     providers: []
 })
 export class RelationBrowserComponent {
+    private elementRelations: any = undefined;
+    // listOfRelations = this.storageService.listOfRelations;
+
+    constructor(storageService: StorageService) { }
 }

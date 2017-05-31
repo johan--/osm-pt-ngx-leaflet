@@ -10,4 +10,5 @@ import {Component} from "@angular/core";
     providers: []
 })
 export class StopBrowserComponent {
+    private elementRelation: any = undefined;
 }

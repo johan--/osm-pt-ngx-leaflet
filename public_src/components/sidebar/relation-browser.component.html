@@ -1,1 +1,8 @@
 <p>this window should allow you to select current master relation</p>
+
+<!--<p [innerHtml]="listOfRelations.length"></p>-->
+
+<div *ngIf="!elementRelations">
+    <h4 class="text-center text-info">This relation has no master relation.</h4>
+    <button class="btn btn-default center-block">Create master for currently selected element</button>
+</div>
