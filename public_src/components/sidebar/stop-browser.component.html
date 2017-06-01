@@ -3,4 +3,25 @@
 
 <h4 class="text-center text-info" *ngIf="!elementRelation">Please select a relation to browse its stops.</h4>
 
-<div [innerHTML]="listOfStops"></div>
+<div id="stop-content" class="panel panel-body panel-default">
+    <div *ngIf="listOfStops.length === 0">
+        <h4 class="text-center text-danger">There are no loaded stops (zoom map).</h4>
+    </div>
+
+    <div *ngIf="listOfStops.length !== 0" class="small">
+        <table class="table-responsive table-condensed table-bordered table-hover table-striped">
+            <thead>
+                <tr>
+                    <td>Id</td>
+                    <td>Tags</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let stop of listOfStops" (click)="exploreRoute($event, stop)">
+                    <td>{{stop.id}}</td>
+                    <td>{{stop.tags | json}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

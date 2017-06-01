@@ -25,6 +25,7 @@ import {NavigatorComponent} from "./components/navigator/navigator.component";
 import {ToolbarComponent} from "./components/toolbar/toolbar.component";
 import {RelationBrowserComponent} from "./components/sidebar/relation-browser.component";
 import {TagBrowserComponent} from "./components/sidebar/tag-browser.component";
+import {RouteBrowserComponent} from "./components/sidebar/route-browser.component";
 import {StopBrowserComponent} from "./components/sidebar/stop-browser.component";
 import {TransporterComponent} from "./components/transporter/transporter.component";
 
@@ -43,6 +44,7 @@ import {ProcessingService} from "./services/processing.service";
         ToolbarComponent,
         RelationBrowserComponent,
         TagBrowserComponent,
+        RouteBrowserComponent,
         StopBrowserComponent,
         TransporterComponent
     ],

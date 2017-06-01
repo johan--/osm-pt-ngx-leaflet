@@ -19,7 +19,7 @@ export class TagBrowserComponent {
 
     elementChanges: any = [];
 
-    updateKey(value: string) { this.tagKey = value; }
+    public updateKey(value: string) { this.tagKey = value; }
 
     updateValue(value: string) { this.tagValue = value; }
 
@@ -27,6 +27,10 @@ export class TagBrowserComponent {
         console.log(this.tagKey, this.tagValue);
         this.elementChanges.push( {[this.tagKey]: this.tagValue} );
         this.tagKey = this.tagValue = "" ;
-        console.log(this.elementChanges);
+        // console.log(this.elementChanges);
+    }
+
+    isUnchanged() {
+        return !this.tagKey || !this.tagValue;
     }
 }

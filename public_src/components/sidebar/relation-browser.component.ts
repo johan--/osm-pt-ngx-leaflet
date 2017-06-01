@@ -11,8 +11,5 @@ import {StorageService} from "../../services/storage.service";
     providers: []
 })
 export class RelationBrowserComponent {
-    private elementRelations: any = undefined;
-    // listOfRelations = this.storageService.listOfRelations;
-
-    constructor(storageService: StorageService) { }
+    // private elementRelations: any = undefined;
 }

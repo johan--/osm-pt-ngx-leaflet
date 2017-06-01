@@ -1,7 +1,31 @@
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
-import {Map} from "leaflet";
+import {Map, LatLngTuple} from "leaflet";
+import {StorageService} from "./storage.service";
+import latLng = L.latLng;
+import LatLngExpression = L.LatLngExpression;
+import LatLngLiteral = L.LatLngLiteral;
 
+const DEFAULT_ICON = L.icon({
+    iconUrl: "",
+    shadowUrl: "",
+    shadowSize: [24, 24],
+    shadowAnchor: [22, 94]
+});
+const HIGHLIGHT_FILL = {
+    color: "#FF0000",
+    weight: 6,
+    opacity: 0.75
+};
+const HIGHLIGHT_STROKE = {
+    color: "#ffff00",
+    weight: 12,
+    opacity: 0.75
+};
+const FROM_TO_LABEL = {
+    color: "#ffaa00",
+    opacity: 0.75,
+};
 const REL_BUS_STYLE = {
     "color": "#0000FF",
     "weight": 6,
@@ -31,7 +55,13 @@ export class MapService {
     private ptLayer: any;
     public osmtogeojson: any = require("osmtogeojson");
 
-    constructor(private http: Http) {
+    private highlightFill: any = undefined;
+    private highlightStroke: any = undefined;
+    private highlight: any = undefined;
+    private markerFrom: any = undefined;
+    private markerTo: any = undefined;
+
+    constructor(private http: Http, private storageService: StorageService) {
         this.baseMaps = {
             Empty: L.tileLayer("", {
                 attribution: ""
@@ -206,5 +236,73 @@ export class MapService {
                 });
                 this.ptLayer.addTo(this.map);
             });
+    }
+
+    clearHighlight() {
+        console.log(this.map, this.map.hasLayer(this.highlight));
+        this.map.removeLayer(this.markerFrom);
+        this.map.removeLayer(this.markerTo);
+        this.map.removeLayer(this.highlight);
+    }
+
+    findCoordinates(refId) {
+       for (let stop of this.storageService.listOfStops) {
+           if (stop.id === refId) {
+               // console.log("nalezeno", refId, stop);
+               return {lat: stop.lat, lng: stop.lon};
+           }
+       }
+        // this.storageService.listOfStops.filter(function(stop) {
+        //     if (stop.id === id) {
+        //         return stop;
+        //     }
+        // });
+    }
+
+    private routeStops = [];
+    private routePlatforms = [];
+
+    showRoute(rel) {
+        let latlngs = Array();
+        for (let member of rel.members) {
+            if (member.type === "node" && ["stop", "stop_entry_only"].indexOf(member.role) > -1) {
+                this.routeStops.push(member.ref);
+                let latlng: LatLngExpression = this.findCoordinates(member.ref);
+                if (latlng) latlngs.push(latlng);
+            }
+            // else if (member.type === "node" && ["platform", "platform_entry_only"].indexOf(member.role) > -1) {
+            //     this.routePlatforms.push(member.rel);
+            //     // let latlng: LatLngExpression = this.findCoordinates(member.ref);
+            //     // if (latlng) latlngs.push(latlng);
+            // }
+        }
+
+        if (latlngs.length > 0) {
+            if (this.highlightFill || this.highlightStroke) this.clearHighlight();
+            this.highlightStroke = L.polyline(latlngs, HIGHLIGHT_STROKE);
+            this.highlightFill = L.polyline(latlngs, HIGHLIGHT_FILL);
+            this.highlight = L.layerGroup([this.highlightStroke, this.highlightFill]).addTo(this.map);
+            return true;
+        } else {
+            alert("Problem occurred while drawing line (zero length).");
+            return false;
+        }
+    }
+
+    drawTooltipFromTo(rel) {
+        console.log(rel); // , rel.members[0], rel.members[1]
+        console.log(this.routeStops.length, this.routeStops);
+        // let latlngFrom: LatLngExpression = this.findCoordinates(rel.members[0].ref);
+        // let latlngTo: LatLngExpression = this.findCoordinates(rel.members[1].ref);
+        let latlngFrom: LatLngExpression = this.findCoordinates(this.routeStops[0]);
+        let latlngTo: LatLngExpression = this.findCoordinates(this.routeStops[this.routeStops.length - 1]);
+        console.log(latlngFrom);
+        console.log(latlngTo);
+        this.markerFrom = L.circleMarker( latlngFrom, FROM_TO_LABEL)
+            .bindTooltip("From: " + rel.tags.from, {permanent: true, className: "from-to-label", offset: [0, 0] })
+            .addTo(this.map);
+        this.markerTo = L.circleMarker( latlngTo, FROM_TO_LABEL)
+            .bindTooltip("To: " + rel.tags.to, {permanent: true, className: "from-to-label", offset: [0, 0] })
+            .addTo(this.map);
     }
 }

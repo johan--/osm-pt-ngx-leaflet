@@ -16,16 +16,17 @@ export class ProcessingService {
     //     this.storageService.localJsonStorage
     // }
 
-
     public createLists() {
         this.storageService.localJsonStorage.elements.forEach( (element) => {
             switch (element.type) {
                 case "node":
-                    console.log(element.id, element.type);
-                    this.storageService.listOfStops.push(element);
+                    // console.log(element);
+                    if (element.tags && element.tags.bus === "yes") {
+                        this.storageService.listOfStops.push(element);
+                    }
                     break;
                 case "relation":
-                    console.log(element.id, element.type);
+                    // console.log(element.id, element.type);
                     this.storageService.listOfRelations.push(element);
                     break;
             }
