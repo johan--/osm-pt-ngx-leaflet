@@ -1,4 +1,3 @@
-<p>this window should allow you to see route's bus stops</p>
 <!--<p [innerHtml]="listOfStops.length"></p>-->
 
 <h4 class="text-center text-info" *ngIf="!elementRelation">Please select a relation to browse its stops.</h4>
@@ -7,7 +6,6 @@
     <div *ngIf="listOfStops.length === 0">
         <h4 class="text-center text-danger">There are no loaded stops (zoom map).</h4>
     </div>
-
     <div *ngIf="listOfStops.length !== 0" class="small">
         <table class="table-responsive table-condensed table-bordered table-hover table-striped">
             <thead>

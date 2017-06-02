@@ -16,7 +16,7 @@ import {HttpModule} from "@angular/http";
 import {NgModule} from "@angular/core";
 import {FormsModule}   from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
-import {ModalModule} from "ngx-bootstrap";
+import {AccordionModule, ModalModule} from "ngx-bootstrap";
 
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
@@ -36,7 +36,7 @@ import {StorageService} from "./services/storage.service";
 import {ProcessingService} from "./services/processing.service";
 
 @NgModule({
-    imports: [HttpModule, FormsModule, BrowserModule, ModalModule.forRoot(), NgbModule.forRoot()],
+    imports: [AccordionModule.forRoot(), HttpModule, FormsModule, BrowserModule, ModalModule.forRoot(), NgbModule.forRoot()],
     bootstrap: [AppComponent],
     declarations: [
         AppComponent,
