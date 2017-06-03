@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let stop of listOfStops" (click)="exploreRoute($event, stop)">
+                <tr *ngFor="let stop of listOfStops" id="{{stop.id}}" (click)="exploreRoutesViaStop($event, stop)">
                     <td>{{stop.id}}</td>
                     <td>{{stop.tags | json}}</td>
                 </tr>

@@ -16,8 +16,8 @@
                     <td>Complete</td>
                 </tr>
             </thead>
-            <tbody>
-                <tr *ngFor="let rel of listOfRelations" (click)="exploreRoute($event, rel)">
+            <tbody #routeTableBody>
+                <tr *ngFor="let rel of listOfRelations" id="{{rel.id}}" (click)="exploreRoute($event, rel)">
                     <td>{{rel.id}}</td>
                     <td>{{rel.tags.route}}</td>
                     <td>{{rel.tags.ref}}</td>
