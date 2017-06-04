@@ -4,6 +4,9 @@
 <div id="relation-content" class="panel panel-body panel-default">
     <div *ngIf="!listOfRelations">
         <h4 class="text-center text-danger">This relation has no master relation.</h4>
-        <button class="btn btn-primary center-block" disabled>Create master for currently selected element</button>
+        <div class="text-center">
+            <button class="btn btn-success" disabled>Create master for currently selected element</button>
+            <button class="btn btn-default" disabled>Find existing master</button>
+        </div>
     </div>
 </div>

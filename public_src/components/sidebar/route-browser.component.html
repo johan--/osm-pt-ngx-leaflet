@@ -1,23 +1,34 @@
 <div id="route-content" class="panel panel-body panel-default">
-    <div *ngIf="listOfRelations.length === 0">
-        <h4 class="text-center text-danger">There are no loaded routes (zoom map).</h4>
+
+    <!--<p>-->
+        <!--LOG filteredRouteView {{filteredView}}-->
+    <!--</p>-->
+
+    <div class="text-center">
+        <h4 class="text-danger"
+            *ngIf="listOfRelations.length === 0">There are no loaded routes (zoom map).</h4>
+        <h4 class="text-info"
+            *ngIf="listOfRelations.length > 0">Please select a stop/platform to browse related routes.</h4>
+        <button class="btn btn-warning" *ngIf="filteredView" (click)="cancelFilter()">Cancel filter</button>
     </div>
 
-    <div *ngIf="listOfRelations.length !== 0" class="small">
+    <div *ngIf="listOfRelations.length !== 0 && !filteredView" class="small">
         <table class="table-responsive table-condensed table-bordered table-hover table-striped">
             <thead>
                 <tr>
-                    <td>Id</td>
-                    <td>Route</td>
-                    <td>Ref</td>
-                    <td>Name</td>
-                    <td>Network</td>
-                    <td>Operator</td>
-                    <td>Complete</td>
+                    <td></td>
+                    <td title="Id">Id</td>
+                    <td title="R">R.</td>
+                    <td title="Reference">Ref.</td>
+                    <td title="Name">N.</td>
+                    <td title="Network">Net.</td>
+                    <td title="Operator">Op.</td>
+                    <td title="Complete">Comp.</td>
                 </tr>
             </thead>
             <tbody #routeTableBody>
-                <tr *ngFor="let rel of listOfRelations" id="{{rel.id}}" (click)="exploreRoute($event, rel)">
+                <tr *ngFor="let rel of listOfRelations" id="{{rel.id}}">
+                    <td class="explore" (click)="exploreRoute($event, rel)"><i class="fa fa-search" aria-hidden="true"></i></td>
                     <td>{{rel.id}}</td>
                     <td>{{rel.tags.route}}</td>
                     <td>{{rel.tags.ref}}</td>
@@ -29,4 +40,5 @@
             </tbody>
         </table>
     </div>
+
 </div>

@@ -1,5 +1,4 @@
 import {Injectable} from "@angular/core";
-import {MapService} from "./map.service";
 
 @Injectable()
 export class StorageService {
@@ -7,6 +6,10 @@ export class StorageService {
     public localGeojsonStorage: any;
     public listOfStops: any = [];
     public listOfRelations: any = [];
+
+    // filtering of sidebar
+    public listOfStopsForRoute: any = [];
+    public listOfRelationsForStop: any = [];
 
     constructor() { }
 }

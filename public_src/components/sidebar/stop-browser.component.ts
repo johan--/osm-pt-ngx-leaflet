@@ -1,7 +1,7 @@
-import {Component, Input, ElementRef} from "@angular/core";
+import {Component} from "@angular/core";
 import {StorageService} from "../../services/storage.service";
 import {MapService} from "../../services/map.service";
-import {RouteBrowserComponent} from "./route-browser.component";
+import {ProcessingService} from "../../services/processing.service";
 
 @Component({
     selector: "stop-browser",
@@ -14,25 +14,32 @@ import {RouteBrowserComponent} from "./route-browser.component";
 })
 export class StopBrowserComponent {
     private listOfStops: any = this.storageService.listOfStops;
-    el: ElementRef;
+    private listOfStopsForRoute: object = this.storageService.listOfStopsForRoute;
 
-    constructor (el: ElementRef,
-                 private storageService: StorageService,
-                 private mapService: MapService) {
-        this.el = el;
+    private filteredView: boolean;
+
+    constructor(private storageService: StorageService,
+                private processingService: ProcessingService,
+                private mapService: MapService) {
     }
 
-    // this._elementRef.nativeElement.querySelector("");
+    ngOnInit() {
+        this.processingService.showStopsForRoute$.subscribe(
+            data => {
+                this.filteredView = data;
+            }
+        );
+    }
 
-    // @Input("routeTableBody") private _routeTableBody: RouteBrowserComponent;
+    private cancelFilter() {
+        this.processingService.activateFilteredStopView(false);
+    }
 
-    public exploreRoutesViaStop($event, rel) {
+    public exploreRoutesViaStop($event, stop) {
+        this.processingService.filterRelationsByStop(stop);
         // let parentDiv = elementRef.nativeElement.querySelector("routeTableBody");
-
-        const hostElem = this.el.nativeElement;
-        console.dir(hostElem.children, hostElem.parentNode);
-        // console.log($event);
-        // console.log(rel);
+        // const hostElem = this.el.nativeElement;
+        // console.dir(hostElem.children, hostElem.parentNode);
         // if (this.mapService.showRoute(rel)) this.mapService.drawTooltipFromTo(rel);
 
     }

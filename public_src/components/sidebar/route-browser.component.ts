@@ -1,6 +1,7 @@
-import {Component, Input, SimpleChanges} from "@angular/core";
+import {Component} from "@angular/core";
 import {StorageService} from "../../services/storage.service";
 import {MapService} from "../../services/map.service";
+import {ProcessingService} from "../../services/processing.service";
 
 @Component({
     selector: "route-browser",
@@ -12,21 +13,33 @@ import {MapService} from "../../services/map.service";
     providers: []
 })
 export class RouteBrowserComponent {
-    // private elementRoutes: any = undefined;
+    private listOfRelations: object = this.storageService.listOfRelations;
+    private listOfRelationsForStop: object = this.storageService.listOfRelationsForStop;
 
-    constructor(private storageService: StorageService, private mapService: MapService) { }
+    private filteredView: boolean;
 
-    // @Input()
-    listOfRelations: object = this.storageService.listOfRelations;
+    constructor(private storageService: StorageService,
+                private processingService: ProcessingService,
+                private mapService: MapService) {
+    }
 
-    ngOnChanges(changes: SimpleChanges) {
-        console.log(changes);
+    ngOnInit() {
+        this.processingService.showRelationsForStop$.subscribe(
+            data => {
+                this.filteredView = data;
+            }
+        );
+    }
+
+    private cancelFilter() {
+        this.processingService.activateFilteredRouteView(false);
     }
 
     public exploreRoute($event, rel) {
-        // console.log($event);
-        // console.log(rel);
-        if (this.mapService.showRoute(rel)) this.mapService.drawTooltipFromTo(rel);
+        this.processingService.filterStopsByRelation(rel);
+        if (this.mapService.showRoute(rel)) {
+            this.mapService.drawTooltipFromTo(rel);
+        }
     }
 
     // listOfRelations = this.storageService.listOfRelations;

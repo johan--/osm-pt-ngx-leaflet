@@ -12,25 +12,24 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
     providers: []
 })
 export class TagBrowserComponent {
-    public elementTags: any = undefined;
+    private elementTags: object[] = [ {"lorem": "ipsum"}, {"foo": "bar"} ];
 
     @Input() tagKey: string = "";
     @Input() tagValue: string = "";
 
-    elementChanges: any = [];
+    private elementChanges: any = [];
 
-    public updateKey(value: string) { this.tagKey = value; }
+    private updateKey(value: string) { this.tagKey = value; }
 
-    updateValue(value: string) { this.tagValue = value; }
+    private updateValue(value: string) { this.tagValue = value; }
 
-    appendNewTag() {
+    private appendNewTag() {
         console.log(this.tagKey, this.tagValue);
-        this.elementChanges.push( {[this.tagKey]: this.tagValue} );
+        this.elementTags.push( {[this.tagKey]: this.tagValue} );
         this.tagKey = this.tagValue = "" ;
-        // console.log(this.elementChanges);
     }
 
-    isUnchanged() {
+    private isUnchanged() {
         return !this.tagKey || !this.tagValue;
     }
 }
