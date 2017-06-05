@@ -13,8 +13,8 @@ import {ProcessingService} from "../../services/processing.service";
     providers: []
 })
 export class RouteBrowserComponent {
-    private listOfRelations: object = this.storageService.listOfRelations;
-    private listOfRelationsForStop: object = this.storageService.listOfRelationsForStop;
+    private listOfRelations: object[] = this.storageService.listOfRelations;
+    private listOfRelationsForStop: object[] = this.storageService.listOfRelationsForStop;
 
     private filteredView: boolean;
 
@@ -35,10 +35,10 @@ export class RouteBrowserComponent {
         this.processingService.activateFilteredRouteView(false);
     }
 
-    public exploreRoute($event, rel) {
-        this.processingService.filterStopsByRelation(rel);
+    private exploreRoute($event, rel) {
         if (this.mapService.showRoute(rel)) {
             this.mapService.drawTooltipFromTo(rel);
+            this.processingService.filterStopsByRelation(rel);
         }
     }
 

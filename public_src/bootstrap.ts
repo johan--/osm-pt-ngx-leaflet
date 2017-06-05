@@ -35,8 +35,11 @@ import {OverpassService} from "./services/overpass.service";
 import {StorageService} from "./services/storage.service";
 import {ProcessingService} from "./services/processing.service";
 
+import {KeysPipe} from "./components/pipes/keys.pipe";
+
 @NgModule({
-    imports: [AccordionModule.forRoot(), HttpModule, FormsModule, BrowserModule, ModalModule.forRoot(), NgbModule.forRoot()],
+    imports: [AccordionModule.forRoot(), HttpModule, FormsModule, BrowserModule,
+        ModalModule.forRoot(), NgbModule.forRoot()],
     bootstrap: [AppComponent],
     declarations: [
         AppComponent,
@@ -46,14 +49,16 @@ import {ProcessingService} from "./services/processing.service";
         TagBrowserComponent,
         RouteBrowserComponent,
         StopBrowserComponent,
-        TransporterComponent
+        TransporterComponent,
+        KeysPipe
     ],
     providers: [
         MapService,
         GeocodingService,
         OverpassService,
         StorageService,
-        ProcessingService
+        ProcessingService,
+        KeysPipe
     ]
 })
 

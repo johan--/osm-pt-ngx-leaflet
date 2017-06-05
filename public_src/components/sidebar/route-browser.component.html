@@ -1,9 +1,5 @@
 <div id="route-content" class="panel panel-body panel-default">
 
-    <!--<p>-->
-        <!--LOG filteredRouteView {{filteredView}}-->
-    <!--</p>-->
-
     <div class="text-center">
         <h4 class="text-danger"
             *ngIf="listOfRelations.length === 0">There are no loaded routes (zoom map).</h4>
@@ -23,6 +19,9 @@
                     <td title="Name">N.</td>
                     <td title="Network">Net.</td>
                     <td title="Operator">Op.</td>
+                    <td title="public_transport">PT</td>
+                    <td title="public_transport:version">PTv.</td>
+                    <td title="Type">Type</td>
                     <td title="Complete">Comp.</td>
                 </tr>
             </thead>
@@ -35,6 +34,9 @@
                     <td>{{rel.tags.name}}</td>
                     <td>{{rel.tags.network}}</td>
                     <td>{{rel.tags.operator}}</td>
+                    <td>{{rel.tags.public_transport}}</td>
+                    <td>{{rel.tags["public_transport:version"]}}</td>
+                    <td>{{rel.tags.type}}</td>
                     <td>{{rel.tags.complete}}</td>
                 </tr>
             </tbody>

@@ -13,9 +13,8 @@ import {ProcessingService} from "../../services/processing.service";
     providers: []
 })
 export class StopBrowserComponent {
-    private listOfStops: any = this.storageService.listOfStops;
-    private listOfStopsForRoute: object = this.storageService.listOfStopsForRoute;
-
+    private listOfStops: object[] = this.storageService.listOfStops;
+    public listOfStopsForRoute: object[] = this.storageService.listOfStopsForRoute;
     private filteredView: boolean;
 
     constructor(private storageService: StorageService,
@@ -35,13 +34,7 @@ export class StopBrowserComponent {
         this.processingService.activateFilteredStopView(false);
     }
 
-    public exploreRoutesViaStop($event, stop) {
+    private exploreRoutesViaStop($event, stop) {
         this.processingService.filterRelationsByStop(stop);
-        // let parentDiv = elementRef.nativeElement.querySelector("routeTableBody");
-        // const hostElem = this.el.nativeElement;
-        // console.dir(hostElem.children, hostElem.parentNode);
-        // if (this.mapService.showRoute(rel)) this.mapService.drawTooltipFromTo(rel);
-
     }
-
 }

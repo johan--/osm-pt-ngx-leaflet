@@ -8,8 +8,13 @@ export class StorageService {
     public listOfRelations: any = [];
 
     // filtering of sidebar
-    public listOfStopsForRoute: any = [];
-    public listOfRelationsForStop: any = [];
+    public listOfStopsForRoute: object[] = [];
+    public listOfRelationsForStop: object[] = [];
+
+    public stopsForRoute: object[] = [];
+    public platformsForRoute: object[] = [];
+    public waysForRoute: object[] = [];
+    public relationsForRoute: object[] = [];
 
     constructor() { }
 }

@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
-import {Map, LatLngTuple} from "leaflet";
+import {Map} from "leaflet";
 import {StorageService} from "./storage.service";
 import latLng = L.latLng;
 import LatLngExpression = L.LatLngExpression;
@@ -239,7 +239,8 @@ export class MapService {
     }
 
     clearHighlight() {
-        console.log(this.map, this.map.hasLayer(this.highlight));
+        console.log("LOG: Highlight cleared",
+            this.map, this.map.hasLayer(this.highlight));
         this.map.removeLayer(this.markerFrom);
         this.map.removeLayer(this.markerTo);
         this.map.removeLayer(this.highlight);
@@ -252,57 +253,60 @@ export class MapService {
                return {lat: stop.lat, lng: stop.lon};
            }
        }
-        // this.storageService.listOfStops.filter(function(stop) {
-        //     if (stop.id === id) {
-        //         return stop;
-        //     }
-        // });
     }
-
-    private routeStops = [];
-    private routePlatforms = [];
 
     showRoute(rel) {
         let latlngs = Array();
         for (let member of rel.members) {
-            if (member.type === "node" && ["stop", "stop_entry_only"].indexOf(member.role) > -1) {
-                this.routeStops.push(member.ref);
+            if (member.type === "node" && ["stop", "stop_entry_only"]
+                    .indexOf(member.role) > -1) {
+                this.storageService.stopsForRoute.push(member.ref);
                 let latlng: LatLngExpression = this.findCoordinates(member.ref);
                 if (latlng) latlngs.push(latlng);
             }
-            // else if (member.type === "node" && ["platform", "platform_entry_only"].indexOf(member.role) > -1) {
-            //     this.routePlatforms.push(member.rel);
-            //     // let latlng: LatLngExpression = this.findCoordinates(member.ref);
-            //     // if (latlng) latlngs.push(latlng);
-            // }
+            else if (member.type === "node" && ["platform", "platform_entry_only"]
+                    .indexOf(member.role) > -1) {
+                this.storageService.platformsForRoute.push(member.ref);
+            }
+            else if (member.type === "way") {
+                this.storageService.waysForRoute.push(member.ref);
+            }
         }
 
         if (latlngs.length > 0) {
             if (this.highlightFill || this.highlightStroke) this.clearHighlight();
             this.highlightStroke = L.polyline(latlngs, HIGHLIGHT_STROKE);
             this.highlightFill = L.polyline(latlngs, HIGHLIGHT_FILL);
-            this.highlight = L.layerGroup([this.highlightStroke, this.highlightFill]).addTo(this.map);
+            this.highlight = L.layerGroup([this.highlightStroke, this.highlightFill])
+                .addTo(this.map);
             return true;
-        } else {
-            alert("Problem occurred while drawing line (zero length).");
+        }
+        else {
+            alert("Problem occurred while drawing line (zero length)." +
+                "\n\n\n" + JSON.stringify(rel));
             return false;
         }
     }
 
     drawTooltipFromTo(rel) {
         console.log(rel); // , rel.members[0], rel.members[1]
-        console.log(this.routeStops.length, this.routeStops);
+        // console.log(this.routeStops.length, this.routeStops);
         // let latlngFrom: LatLngExpression = this.findCoordinates(rel.members[0].ref);
         // let latlngTo: LatLngExpression = this.findCoordinates(rel.members[1].ref);
-        let latlngFrom: LatLngExpression = this.findCoordinates(this.routeStops[0]);
-        let latlngTo: LatLngExpression = this.findCoordinates(this.routeStops[this.routeStops.length - 1]);
-        console.log(latlngFrom);
-        console.log(latlngTo);
+        let latlngFrom: LatLngExpression = this.findCoordinates(
+            this.storageService.stopsForRoute[0]);
+        let latlngTo: LatLngExpression = this.findCoordinates(
+            this.storageService.stopsForRoute[this.storageService.stopsForRoute.length - 1]);
+
+        console.log("LOG: Labels coordinates (from, to)", latlngFrom, latlngTo);
+
         this.markerFrom = L.circleMarker( latlngFrom, FROM_TO_LABEL)
-            .bindTooltip("From: " + rel.tags.from, {permanent: true, className: "from-to-label", offset: [0, 0] })
+            .bindTooltip("From: " + rel.tags.from, {
+                permanent: true, className: "from-to-label", offset: [0, 0] })
             .addTo(this.map);
         this.markerTo = L.circleMarker( latlngTo, FROM_TO_LABEL)
-            .bindTooltip("To: " + rel.tags.to, {permanent: true, className: "from-to-label", offset: [0, 0] })
+            .bindTooltip("To: " + rel.tags.to, {
+                permanent: true, className: "from-to-label", offset: [0, 0] })
             .addTo(this.map);
     }
 }
