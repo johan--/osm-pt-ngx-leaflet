@@ -36,6 +36,7 @@ import {StorageService} from "./services/storage.service";
 import {ProcessingService} from "./services/processing.service";
 
 import {KeysPipe} from "./components/pipes/keys.pipe";
+import {AuthComponent} from "./components/auth/auth.component";
 
 @NgModule({
     imports: [AccordionModule.forRoot(), HttpModule, FormsModule, BrowserModule,
@@ -50,6 +51,7 @@ import {KeysPipe} from "./components/pipes/keys.pipe";
         RouteBrowserComponent,
         StopBrowserComponent,
         TransporterComponent,
+        AuthComponent,
         KeysPipe
     ],
     providers: [
